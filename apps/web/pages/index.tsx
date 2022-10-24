@@ -19,6 +19,13 @@ const recipesQuery = `
   }
 `
 
+interface Recipe {
+  id: string,
+  attributes: {
+    name: string
+  }
+}
+
 export default function Web() {
   const [result] = useQuery({
     query: recipesQuery
@@ -42,7 +49,7 @@ export default function Web() {
 
       <Detector render={({ online }) => online ? (
         <Grid>
-          {data.recipes.data.map(recipe => (
+          {data.recipes.data.map((recipe: Recipe) => (
             <Grid.Col span={4} key={recipe.id}>
               <RecipeCard id={recipe.id} title={recipe.attributes.name} />
             </Grid.Col>

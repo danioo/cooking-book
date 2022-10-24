@@ -112,7 +112,7 @@ const mainLinks = [
 
 const links = [
   {label: 'Przepisy', href: '/', contain: 'recipe'},
-  {label: 'Statystyki', href: '/stats'},
+  {label: 'Statystyki', href: '/stats', contain: null},
 ]
 
 export function DoubleNavbar() {
@@ -131,16 +131,24 @@ export function DoubleNavbar() {
     </Tooltip>
   ))
 
-  const subCategories = links.map((link) => (
-    <Link
-      className={cx(classes.link)}
-      href={link.href}
-      passHref
-      key={link.label}
-    >
-      <NavLink component="a" label={link.label} active={router.pathname === link.href || router.pathname.includes(link?.contain)} />
-    </Link>
-  ))
+  const subCategories = links.map((link) => {
+    let isActive = router.pathname === link.href
+
+    if (link.contain) {
+      isActive = isActive || router.pathname.includes(link?.contain)
+    }
+
+    return (
+      <Link
+        className={cx(classes.link)}
+        href={link.href}
+        passHref
+        key={link.label}
+      >
+        <NavLink component="a" label={link.label} active={isActive} />
+      </Link>
+    )
+  })
 
   return (
     <Navbar width={{ sm: 300 }}>
